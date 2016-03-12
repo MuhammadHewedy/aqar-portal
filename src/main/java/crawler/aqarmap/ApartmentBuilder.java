@@ -33,7 +33,7 @@ public class ApartmentBuilder {
 				.setAdDate(LocalDate.parse(get(doc, AD_DATE, String.class), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		apartment.setAdMobile(get(doc, AD_MOBILE, String.class));
 		apartment.setPropertyType(get(doc, PROPERTY_TYPE, String.class));
-		apartment.setArea(get(doc, AREA, Integer.class));
+		apartment.setArea(get(doc, AREA, Integer.class));		// BUG HERE, XXX FIX IT
 		apartment.setBuildYear(get(doc, BUILD_YEAR, Long.class));
 		apartment.setCategoryOfFinishes(get(doc, CAT_OF_FINISHES, String.class));
 		apartment.setDescription(get(doc, DESC, String.class));
