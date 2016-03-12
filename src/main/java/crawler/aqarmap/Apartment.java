@@ -25,9 +25,9 @@ public class Apartment {
 	private String adNumber;
 	private LocalDate adDate;
 	private String adMobile;
-	private String adType;
+	private String propertyType;
 	private Long price;
-	private String type;
+	private String advertiser;
 	private String area;
 	private String payMethod;
 	private Long numOfRooms;
@@ -41,4 +41,5 @@ public class Apartment {
 	private Double longitude;
 	@ElementCollection
 	private List<String> imageUrls;
+	private String refUrl;
 }

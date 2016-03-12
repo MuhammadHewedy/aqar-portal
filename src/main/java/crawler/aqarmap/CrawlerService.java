@@ -39,12 +39,12 @@ public class CrawlerService {
 				.collect(Collectors.toList());
 
 		collect.forEach(f -> f.addCallback(t -> {
-			Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
-			if (count == 0) {
+//			Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
+//			if (count == 0) {
 				apartmentRepo.save(t);
-			} else {
-				log.info("add {} already exists", t.getAdNumber());
-			}
+//			} else {
+//				log.info("add {} already exists", t.getAdNumber());
+//			}
 		}, e -> {
 			e.printStackTrace();
 		}));

@@ -24,12 +24,15 @@ public class ApartmentBuilder {
 
 		Apartment apartment = new Apartment();
 
+		apartment.setRefUrl(detailsUrl);
+
 		apartment.setAdNumber(get(doc, AD_NUMBER, String.class));
+
 		apartment.setPrice(get(doc, PRICE, Long.class));
 		apartment
 				.setAdDate(LocalDate.parse(get(doc, AD_DATE, String.class), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		apartment.setAdMobile(get(doc, AD_MOBILE, String.class));
-		apartment.setAdType(get(doc, AD_TYPE, String.class));
+		apartment.setPropertyType(get(doc, PROPERTY_TYPE, String.class));
 		apartment.setArea(get(doc, AREA, String.class));
 		apartment.setBuildYear(get(doc, BUILD_YEAR, Long.class));
 		apartment.setCategoryOfFinishes(get(doc, CAT_OF_FINISHES, String.class));
@@ -37,7 +40,7 @@ public class ApartmentBuilder {
 		apartment.setDistrict("TODO");
 		apartment.setFloorNumber(get(doc, FLOOR_NUMBER, Long.class));
 		apartment.setNumOfRooms(get(doc, NUM_OF_ROOMS, Long.class));
-		
+
 		// TODO add rest of fields
 
 		return new AsyncResult<Apartment>(apartment);

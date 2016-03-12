@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 public class XPathUtils {
 
 	private static final XPathFactory factory = XPathFactory.newInstance();
+	private static final String TABLE_XPATH = "/html/body/div[3]/div[1]/div/section/table/tbody/tr/td[contains(text(),'%s')]//following-sibling::td";
 
 	public static final XPathExpression DETAILS_URLS;
 	public static final XPathExpression PRICE;
@@ -19,8 +20,8 @@ public class XPathUtils {
 	public static final XPathExpression DISTRICT;
 	public static final XPathExpression AD_DATE;
 	public static final XPathExpression AD_MOBILE;
-	public static final XPathExpression AD_TYPE;
-	public static final XPathExpression TYPE;
+	public static final XPathExpression PROPERTY_TYPE;
+	public static final XPathExpression ADVERTISER;
 	public static final XPathExpression AREA;
 	public static final XPathExpression PAY_METHOD;
 	public static final XPathExpression NUM_OF_ROOMS;
@@ -67,19 +68,21 @@ public class XPathUtils {
 			
 			TITLE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[1]/h1");
 			DISTRICT = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[1]/p");
-			AD_NUMBER = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[1]/td[2]");
-			AD_DATE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[6]/td[2]");
+			
+			AD_NUMBER = factory.newXPath().compile(String.format(TABLE_XPATH, "Listing ID"));
+			AD_DATE = factory.newXPath().compile(String.format(TABLE_XPATH, "Publish Date"));
+			PROPERTY_TYPE = factory.newXPath().compile(String.format(TABLE_XPATH, "Property Type"));
+			PRICE = factory.newXPath().compile(String.format(TABLE_XPATH, "Price"));
+			ADVERTISER = factory.newXPath().compile(String.format(TABLE_XPATH, "Seller Role"));
+			AREA = factory.newXPath().compile(String.format(TABLE_XPATH, "Size"));
+			PAY_METHOD = factory.newXPath().compile(String.format(TABLE_XPATH, "Payment Method"));
+			NUM_OF_ROOMS = factory.newXPath().compile(String.format(TABLE_XPATH, "Rooms"));
+			FLOOR_NUMBER = factory.newXPath().compile(String.format(TABLE_XPATH, "Floor"));
+			WC_NUMBER = factory.newXPath().compile(String.format(TABLE_XPATH, "Baths"));
+			BUILD_YEAR = factory.newXPath().compile(String.format(TABLE_XPATH, "Year Built"));
+			CAT_OF_FINISHES = factory.newXPath().compile(String.format(TABLE_XPATH, "Finish Type"));
+			
 			AD_MOBILE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/div[2]/section/div/div[2]/div/a/text()");
-			AD_TYPE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[4]/td[2]");
-			PRICE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[2]/td[2]/span");
-			TYPE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[3]/td[2]");
-			AREA = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[5]/td[2]");
-			PAY_METHOD = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[7]/td[2]");
-			NUM_OF_ROOMS = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[8]/td[2]");
-			FLOOR_NUMBER = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[9]/td[2]");
-			WC_NUMBER = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[10]/td[2]");
-			BUILD_YEAR = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[11]/td[2]");
-			CAT_OF_FINISHES = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/table/tbody/tr[12]/td[2]");
 			DESC = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[3]/p[2]/text()");
 			LAT_LONG = factory.newXPath().compile("//*[@id=\"map\"]");
 			IMG_URLS = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[2]/div[1]/div/div/div/img");

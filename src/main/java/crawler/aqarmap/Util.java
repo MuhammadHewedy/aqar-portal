@@ -14,7 +14,7 @@ public class Util {
 
 	public static final String PAGE_PARAM = "page";
 	public static final String BASE_URL = "https://ksa.aqarmap.com";
-	public static final String SEARCH_URL = "/ar/for-rent/apartment/riyadh/?minPrice=0&maxPrice=999999&photos=1";
+	public static final String SEARCH_URL = "/en/for-rent/apartment/riyadh/?minPrice=0&maxPrice=999999&photos=1";
 
 	public static Document fromUrl(String url) {
 		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
