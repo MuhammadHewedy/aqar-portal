@@ -35,6 +35,13 @@ public class XPathUtils {
 	
 	
 
+	/**
+	 * return value, if the clazz type is number, then all non-numeric values will be stripped-out.
+	 * @param doc
+	 * @param exp
+	 * @param clazz
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T get(Document doc, XPathExpression exp, Class<T> clazz) {
 		String value;

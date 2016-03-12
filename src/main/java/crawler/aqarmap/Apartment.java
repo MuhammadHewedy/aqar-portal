@@ -28,7 +28,7 @@ public class Apartment {
 	private String propertyType;
 	private Long price;
 	private String advertiser;
-	private String area;
+	private Integer area;
 	private String payMethod;
 	private Long numOfRooms;
 	private Long floorNumber;
