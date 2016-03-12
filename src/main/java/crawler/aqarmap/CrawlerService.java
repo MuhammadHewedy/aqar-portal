@@ -46,6 +46,7 @@ public class CrawlerService {
 				log.info("add {} already exists", t.getAdNumber());
 			}
 		}, e -> {
+			e.printStackTrace();
 		}));
 	}
 
