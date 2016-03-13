@@ -35,13 +35,14 @@ public class CrawlerService {
 	private void crawle(String city, String url, Integer to) {
 		List<ListenableFuture<Apartment>> collect = IntStream.range(1, to + 1)
 				.mapToObj(page -> url + "&" + Util.PAGE_PARAM + "=" + page)
-				.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl)).map(dUrl -> builder.apartmentFromDetailsUrl(dUrl))
+				.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl)).map(dUrl -> builder.apartmentFromDetailsUrl(dUrl, city))
 				.collect(Collectors.toList());
 
 		collect.forEach(f -> f.addCallback(t -> {
 //			Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
 //			if (count == 0) {
-				apartmentRepo.save(t);
+				System.out.println(t);
+//				apartmentRepo.save(t);
 //			} else {
 //				log.info("add {} already exists", t.getAdNumber());
 //			}
