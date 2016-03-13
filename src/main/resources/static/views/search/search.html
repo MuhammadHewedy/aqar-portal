@@ -1,0 +1,7 @@
+<div class="caption-full" ng-repeat="apartment in apartments">
+
+	<h4>
+		<a href="https://ksa.aqarmap.com{{apartment.refUrl}}" target="_blank">{{apartment.title}}</a>
+	</h4>
+	{{apartment.price | currency: 'SR ' : 0}}
+</div>

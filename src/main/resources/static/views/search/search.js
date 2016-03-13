@@ -9,6 +9,10 @@ angular.module('myApp')
 	});
 } ])
 
-.controller('SearchCtrl', [ function() {
-
+.controller('SearchCtrl', [ '$scope', 'Apartment', function($scope, Apartment) {
+	
+	Apartment.query(function(apartments){
+		$scope.apartments = apartments.content;
+		console.log($scope.apartments);
+	});
 } ]);

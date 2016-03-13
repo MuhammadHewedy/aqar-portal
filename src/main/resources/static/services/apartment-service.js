@@ -11,6 +11,7 @@ angular.module('myApp').factory('Apartment',
 				query : {
 					isArray : false,
 					params : {
+						size : 100000,
 						page : '@page'
 					}
 				}
