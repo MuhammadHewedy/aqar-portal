@@ -31,7 +31,7 @@ public class XPathUtils {
 	public static final XPathExpression DESC;
 	public static final XPathExpression LAT_LONG;
 	public static final XPathExpression IMG_URLS;
-	public static final XPathExpression CAT_OF_FINISHES;
+	public static final XPathExpression FINISHES;
 	
 	
 
@@ -71,28 +71,25 @@ public class XPathUtils {
 
 	static {
 		try {
-			DETAILS_URLS = factory.newXPath().compile("/html/body/div[3]/div[2]/section/div[2]/ul/li/a");
-			
-			TITLE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[1]/h1");
-			DISTRICT = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[1]/p");
-			
-			AD_NUMBER = factory.newXPath().compile(String.format(TABLE_XPATH, "Listing ID"));
-			AD_DATE = factory.newXPath().compile(String.format(TABLE_XPATH, "Publish Date"));
+			DETAILS_URLS = 	factory.newXPath().compile("/html/body/div[3]/div[2]/section/div[2]/ul/li/a");
+			TITLE = 		factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[1]/h1");
+			DISTRICT = 		factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[1]/p");
+			AD_NUMBER = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Listing ID"));
+			AD_DATE = 		factory.newXPath().compile(String.format(TABLE_XPATH, "Publish Date"));
 			PROPERTY_TYPE = factory.newXPath().compile(String.format(TABLE_XPATH, "Property Type"));
-			PRICE = factory.newXPath().compile(String.format(TABLE_XPATH, "Price"));
-			ADVERTISER = factory.newXPath().compile(String.format(TABLE_XPATH, "Seller Role"));
-			AREA = factory.newXPath().compile(String.format(TABLE_XPATH, "Size"));
-			PAY_METHOD = factory.newXPath().compile(String.format(TABLE_XPATH, "Payment Method"));
-			NUM_OF_ROOMS = factory.newXPath().compile(String.format(TABLE_XPATH, "Rooms"));
-			FLOOR_NUMBER = factory.newXPath().compile(String.format(TABLE_XPATH, "Floor"));
-			WC_NUMBER = factory.newXPath().compile(String.format(TABLE_XPATH, "Baths"));
-			BUILD_YEAR = factory.newXPath().compile(String.format(TABLE_XPATH, "Year Built"));
-			CAT_OF_FINISHES = factory.newXPath().compile(String.format(TABLE_XPATH, "Finish Type"));
-			
-			AD_MOBILE = factory.newXPath().compile("/html/body/div[3]/div[1]/div/div[2]/section/div/div[2]/div/a/text()");
-			DESC = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[3]/p[2]/text()");
-			LAT_LONG = factory.newXPath().compile("//*[@id=\"map\"]");
-			IMG_URLS = factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[2]/div[1]/div/div/div/img");
+			PRICE = 		factory.newXPath().compile(String.format(TABLE_XPATH, "Price"));
+			ADVERTISER = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Seller Role"));
+			AREA = 			factory.newXPath().compile(String.format(TABLE_XPATH, "Size"));
+			PAY_METHOD = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Payment Method"));
+			NUM_OF_ROOMS = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Rooms"));
+			FLOOR_NUMBER = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Floor"));
+			WC_NUMBER = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Baths"));
+			BUILD_YEAR = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Year Built"));
+			FINISHES = 		factory.newXPath().compile(String.format(TABLE_XPATH, "Finish Type"));
+			AD_MOBILE = 	factory.newXPath().compile("/html/body/div[3]/div[1]/div/div[2]/section/div/div[2]/div/a/text()");
+			DESC = 			factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[3]/p[2]/text()");
+			LAT_LONG = 		factory.newXPath().compile("//*[@id=\"map\"]");
+			IMG_URLS = 		factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[2]/div[1]/div/div/div/img");
 
 		} catch (XPathExpressionException e) {
 			throw new RuntimeException(e);

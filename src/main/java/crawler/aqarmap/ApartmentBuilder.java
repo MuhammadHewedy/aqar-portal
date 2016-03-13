@@ -35,7 +35,7 @@ public class ApartmentBuilder {
 		apartment.setPropertyType(get(doc, PROPERTY_TYPE, String.class));
 		apartment.setArea(get(doc, AREA, Integer.class));		// BUG HERE, XXX FIX IT
 		apartment.setBuildYear(get(doc, BUILD_YEAR, Long.class));
-		apartment.setCategoryOfFinishes(get(doc, CAT_OF_FINISHES, String.class));
+		apartment.setCategoryOfFinishes(get(doc, FINISHES, String.class));
 		apartment.setDescription(get(doc, DESC, String.class));
 		apartment.setDistrict("TODO");
 		apartment.setFloorNumber(get(doc, FLOOR_NUMBER, Long.class));
