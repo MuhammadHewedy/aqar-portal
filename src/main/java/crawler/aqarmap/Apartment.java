@@ -39,6 +39,7 @@ public class Apartment {
 	private String description;
 	private Double latitude;
 	private Double longitude;
+	@Column(length = 2000)
 	@ElementCollection
 	private List<String> imageUrls;
 	private String refUrl;

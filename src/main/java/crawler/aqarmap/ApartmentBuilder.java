@@ -71,7 +71,9 @@ public class ApartmentBuilder {
 		if (ele != null) {
 			String mobile = ele.getAttribute("data-number");
 			try {
-				return URLDecoder.decode(mobile, "utf8");
+				String decode = URLDecoder.decode(mobile, "utf8");
+				decode = !decode.startsWith("0") ? "0" + decode : decode;
+				return decode;
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

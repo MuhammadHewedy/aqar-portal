@@ -2,8 +2,6 @@ package crawler.aqarmap;
 
 import static crawler.aqarmap.XPathUtils.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.Stream.Builder;
@@ -11,8 +9,8 @@ import java.util.stream.Stream.Builder;
 import javax.xml.xpath.XPathConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,26 +26,20 @@ public class CrawlerService {
 	@Autowired
 	private ApartmentRepo apartmentRepo;
 
-	public void crawle() {
-		crawle("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 31);
-	}
-
-	private void crawle(String city, String url, Integer to) {
-		List<ListenableFuture<Apartment>> collect = IntStream.range(1, to + 1).parallel()
-				.mapToObj(page -> url + "&" + Util.PAGE_PARAM + "=" + page)
+	@Async
+	public void start(String city, String url, Integer to) {
+		IntStream.range(1, to + 1).mapToObj(page -> url + "&" + Util.PAGE_PARAM + "=" + page)
 				.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl)).map(dUrl -> builder.apartmentFromDetailsUrl(dUrl, city))
-				.collect(Collectors.toList());
-
-		collect.forEach(f -> f.addCallback(t -> {
-			Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
-			if (count == 0) {
-				apartmentRepo.save(t);
-			} else {
-				log.info("add {} already exists", t.getAdNumber());
-			}
-		} , e -> {
-			e.printStackTrace();
-		}));
+				.forEach(f -> f.addCallback(t -> {
+					Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
+					if (count == 0) {
+						apartmentRepo.save(t);
+					} else {
+						log.info("add {} already exists", t.getAdNumber());
+					}
+				} , e -> {
+					e.printStackTrace();
+				}));
 	}
 
 	private Stream<String> detailsUrlsFromPageUrl(String pageUrl) {
