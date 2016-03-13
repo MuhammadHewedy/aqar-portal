@@ -33,18 +33,18 @@ public class CrawlerService {
 	}
 
 	private void crawle(String city, String url, Integer to) {
-		List<ListenableFuture<Apartment>> collect = IntStream.range(1, to + 1)
+		List<ListenableFuture<Apartment>> collect = IntStream.range(1, to + 1).parallel()
 				.mapToObj(page -> url + "&" + Util.PAGE_PARAM + "=" + page)
 				.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl)).map(dUrl -> builder.apartmentFromDetailsUrl(dUrl, city))
-				.limit(10).collect(Collectors.toList());
+				.collect(Collectors.toList());
 
 		collect.forEach(f -> f.addCallback(t -> {
-			// Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
-			// if (count == 0) {
-			apartmentRepo.save(t);
-			// } else {
-			// log.info("add {} already exists", t.getAdNumber());
-			// }
+			Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
+			if (count == 0) {
+				apartmentRepo.save(t);
+			} else {
+				log.info("add {} already exists", t.getAdNumber());
+			}
 		} , e -> {
 			e.printStackTrace();
 		}));
