@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<i class="fa fa-fw"></i>
+		<a type="button" class="btn btn-primary" href="/users/create" translate>Create User</a>
+	</div>
+	<!-- /.panel-heading -->
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Role</th>
+								<th>Enabled</th>
+								<th style="width: 20%">Edit</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="user in users.content">
+								<td>{{user.username}}</td>
+								<td>{{user.role | translate}}</td>
+								<td>{{'enabled_' + user.enabled | translate}}</td>
+								<td style="text-align: center;">
+									<a ng-href="/users/edit/{{user.id}}">
+										<i class="fa fa-pencil-square-o fa-2x"></i>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<uib-pagination total-items="users.totalElements" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true"
+						num-pages="users.totalPages" ng-change="goToPage()"></uib-pagination>
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.panel-body -->
+</div>

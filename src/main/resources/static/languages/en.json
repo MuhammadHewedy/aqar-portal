@@ -1,0 +1,8 @@
+{
+	"username": "Username",
+	"password" : "Password",
+	"please.sign.in": "Please sign in",
+	"sign.in": "Sign in",
+	"enabled_true": "Active",
+	"enabled_false": "Not Active"
+}
