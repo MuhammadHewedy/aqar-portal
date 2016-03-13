@@ -29,7 +29,7 @@ public class CrawlerService {
 	private ApartmentRepo apartmentRepo;
 
 	public void crawle() {
-		crawle("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 1);
+		crawle("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 31);
 	}
 
 	private void crawle(String city, String url, Integer to) {
