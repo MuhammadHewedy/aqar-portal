@@ -36,7 +36,7 @@ public class ApartmentBuilder {
 		apartment.setPrice(get(doc, PRICE, Long.class));
 		apartment
 				.setAdDate(LocalDate.parse(get(doc, AD_DATE, String.class), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		apartment.setAdMobile(getPhone(doc));
+		apartment.setAdMobile(getMobile(doc));
 		apartment.setPropertyType(get(doc, PROPERTY_TYPE, String.class));
 		apartment.setArea(Integer.valueOf(get(doc, AREA, String.class).replace(" M&sup2;", "")));
 		apartment.setBuildYear(get(doc, BUILD_YEAR, Long.class));
@@ -66,12 +66,12 @@ public class ApartmentBuilder {
 		return list;
 	}
 
-	private String getPhone(Document doc) {
+	private String getMobile(Document doc) {
 		Element ele = ((Element) get(doc, AD_MOBILE, Node.class));
 		if (ele != null) {
-			String phone = ele.getAttribute("data-number");
+			String mobile = ele.getAttribute("data-number");
 			try {
-				return URLDecoder.decode(phone, "utf8");
+				return URLDecoder.decode(mobile, "utf8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
