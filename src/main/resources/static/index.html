@@ -39,7 +39,7 @@
 </head>
 <body class="ng-cloak">
 
-	<div id="wrapper" ng-controller="MainCtrl">
+	<div id="wrapper">
 
 		<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}"
 			close="closeAlert($index)" dismiss-on-timeout="{{alert.timeout}}">{{alert.msg

@@ -1,6 +1,6 @@
-package crawler.aqarmap;
+package crawler.aqarmap.controllers;
 
-import static crawler.aqarmap.XPathUtils.*;
+import static crawler.aqarmap.util.XPathUtils.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -18,6 +18,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import crawler.aqarmap.models.Apartment;
+import crawler.aqarmap.util.Util;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

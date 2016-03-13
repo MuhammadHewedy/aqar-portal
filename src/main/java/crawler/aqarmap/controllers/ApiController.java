@@ -1,4 +1,4 @@
-package crawler.aqarmap;
+package crawler.aqarmap.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysema.query.types.Predicate;
+
+import crawler.aqarmap.models.Apartment;
+import crawler.aqarmap.models.ApartmentRepo;
+import crawler.aqarmap.util.Util;
 
 @RestController
 public class ApiController {

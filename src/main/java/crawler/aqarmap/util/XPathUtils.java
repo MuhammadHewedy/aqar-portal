@@ -1,4 +1,4 @@
-package crawler.aqarmap;
+package crawler.aqarmap.util;
 
 import java.lang.reflect.Method;
 

@@ -1,6 +1,6 @@
-package crawler.aqarmap;
+package crawler.aqarmap.controllers;
 
-import static crawler.aqarmap.XPathUtils.*;
+import static crawler.aqarmap.util.XPathUtils.*;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -15,6 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import crawler.aqarmap.models.ApartmentRepo;
+import crawler.aqarmap.util.Util;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
