@@ -28,6 +28,8 @@ public class ApiController {
 
 	@RequestMapping("/api")
 	public ResponseEntity<Page<Apartment>> get(Predicate predicate, Pageable pageable) {
-		return ResponseEntity.ok(apartmentRepo.findAll(predicate, pageable));
+		Page<Apartment> findAll = apartmentRepo.findAll(predicate, pageable);
+		findAll.forEach(o -> o.setImageUrls(null));
+		return ResponseEntity.ok(findAll);
 	}
 }
