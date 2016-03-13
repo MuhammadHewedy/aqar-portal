@@ -36,17 +36,16 @@ public class CrawlerService {
 		List<ListenableFuture<Apartment>> collect = IntStream.range(1, to + 1)
 				.mapToObj(page -> url + "&" + Util.PAGE_PARAM + "=" + page)
 				.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl)).map(dUrl -> builder.apartmentFromDetailsUrl(dUrl, city))
-				.collect(Collectors.toList());
+				.limit(10).collect(Collectors.toList());
 
 		collect.forEach(f -> f.addCallback(t -> {
-//			Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
-//			if (count == 0) {
-				System.out.println(t);
-//				apartmentRepo.save(t);
-//			} else {
-//				log.info("add {} already exists", t.getAdNumber());
-//			}
-		}, e -> {
+			// Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
+			// if (count == 0) {
+			apartmentRepo.save(t);
+			// } else {
+			// log.info("add {} already exists", t.getAdNumber());
+			// }
+		} , e -> {
 			e.printStackTrace();
 		}));
 	}

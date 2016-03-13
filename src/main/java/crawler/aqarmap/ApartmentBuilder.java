@@ -2,8 +2,12 @@ package crawler.aqarmap;
 
 import static crawler.aqarmap.XPathUtils.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -12,6 +16,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,13 +32,11 @@ public class ApartmentBuilder {
 		Apartment apartment = new Apartment();
 
 		apartment.setRefUrl(detailsUrl);
-
 		apartment.setAdNumber(get(doc, AD_NUMBER, String.class));
-
 		apartment.setPrice(get(doc, PRICE, Long.class));
 		apartment
 				.setAdDate(LocalDate.parse(get(doc, AD_DATE, String.class), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		apartment.setAdMobile(get(doc, AD_MOBILE, String.class));
+		apartment.setAdMobile(getPhone(doc));
 		apartment.setPropertyType(get(doc, PROPERTY_TYPE, String.class));
 		apartment.setArea(Integer.valueOf(get(doc, AREA, String.class).replace(" M&sup2;", "")));
 		apartment.setBuildYear(get(doc, BUILD_YEAR, Long.class));
@@ -47,9 +50,33 @@ public class ApartmentBuilder {
 		apartment.setTitle(get(doc, TITLE, String.class));
 		apartment.setWcNumber(get(doc, WC_NUMBER, Long.class));
 		apartment.setDistrict(get(doc, DISTRICT, String.class));
+		apartment.setImageUrls(getImageUrls(doc));
 		setLatAndLong(doc, apartment);
 
 		return new AsyncResult<Apartment>(apartment);
+	}
+
+	private List<String> getImageUrls(Document doc) {
+		List<String> list = new ArrayList<>();
+		NodeList nodeList = get(doc, IMG_URLS, NodeList.class);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element e = (Element) nodeList.item(i);
+			list.add(e.getAttribute("src"));
+		}
+		return list;
+	}
+
+	private String getPhone(Document doc) {
+		Element ele = ((Element) get(doc, AD_MOBILE, Node.class));
+		if (ele != null) {
+			String phone = ele.getAttribute("data-number");
+			try {
+				return URLDecoder.decode(phone, "utf8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
 	}
 
 	private void setLatAndLong(Document doc, Apartment apartment) {

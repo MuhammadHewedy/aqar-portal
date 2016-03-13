@@ -96,10 +96,10 @@ public class XPathUtils {
 			WC_NUMBER = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Baths"));
 			BUILD_YEAR = 	factory.newXPath().compile(String.format(TABLE_XPATH, "Year Built"));
 			FINISHES = 		factory.newXPath().compile(String.format(TABLE_XPATH, "Finish Type"));
-			AD_MOBILE = 	factory.newXPath().compile("/html/body/div[3]/div[1]/div/div[2]/section/div/div[2]/div/a/text()");
+			AD_MOBILE = 	factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[5]/div[2]/div/a");
 			DESC = 			factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[3]/p[2]/text()");
 			LAT_LONG = 		factory.newXPath().compile("//*[@id=\"map\"]");
-			IMG_URLS = 		factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[2]/div[1]/div/div/div/img");
+			IMG_URLS = 		factory.newXPath().compile("/html/body/div[3]/div[1]/div/section/div[2]/div/img");
 
 		} catch (XPathExpressionException e) {
 			throw new RuntimeException(e);

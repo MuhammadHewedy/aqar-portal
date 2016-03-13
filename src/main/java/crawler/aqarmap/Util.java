@@ -1,6 +1,13 @@
 package crawler.aqarmap;
 
+import java.io.StringWriter;
 import java.util.concurrent.Future;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.DomSerializer;
@@ -29,5 +36,19 @@ public class Util {
 			asyncHttpClient.close();
 		}
 		return doc;
+	}
+
+	public static String getStringFromDocument(Document doc) {
+		try {
+			DOMSource domSource = new DOMSource(doc);
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer = tf.newTransformer();
+			transformer.transform(domSource, result);
+			return writer.toString();
+		} catch (TransformerException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 }
