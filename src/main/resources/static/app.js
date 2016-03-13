@@ -5,9 +5,9 @@ angular.module('myApp', [ 'ngRoute', 'ngResource', 'ui.bootstrap', 'ngMessages',
 
 .config([ '$routeProvider', '$locationProvider', '$httpProvider', '$translateProvider', function($routeProvider, $locationProvider, $httpProvider, $translateProvider) {
 
-/*	$routeProvider.otherwise({
-		redirectTo : '/'
-	});*/
+	$routeProvider.otherwise({
+		redirectTo : '/search'
+	});
 
 	$httpProvider.defaults.headers.common = {
 		'X-Requested-With' : 'XMLHttpRequest'

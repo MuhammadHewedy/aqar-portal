@@ -39,16 +39,12 @@
 </head>
 <body class="ng-cloak">
 
-	<div id="wrapper">
 
-		<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}"
-			close="closeAlert($index)" dismiss-on-timeout="{{alert.timeout}}">{{alert.msg
-		| translate }}</uib-alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}"
+		close="closeAlert($index)" dismiss-on-timeout="{{alert.timeout}}">{{alert.msg
+	| translate }}</uib-alert>
 
-		<div ng-view id="page-wrapper" style="margin-left: 0px"></div>
-
-	</div>
-	<!-- /#wrapper -->
+	<div ng-view ></div>
 
 	<!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -76,6 +72,7 @@
 	<script src="services/apartment-service.js"></script>
 
 	<!--  ng controllers -->
+	<script src="views/search/search.js"></script>
 	<script src="views/view1/view1.js"></script>
 	<script src="views/view2/view2.js"></script>
 
