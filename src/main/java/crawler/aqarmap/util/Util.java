@@ -71,7 +71,7 @@ public class Util {
 			this.current += 1;
 
 			if (this.current == this.totalCount) {
-//				reset();
+				reset();
 			}
 		}
 	}
