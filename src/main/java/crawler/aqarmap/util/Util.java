@@ -17,11 +17,14 @@ import org.w3c.dom.Document;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 
+import lombok.Data;
+
 public class Util {
 
 	public static final String PAGE_PARAM = "page";
 	public static final String BASE_URL = "https://ksa.aqarmap.com";
 	public static final String SEARCH_URL = "/en/for-rent/apartment/riyadh/?minPrice=0&maxPrice=999999&photos=1";
+	public static final LoadInfo LOAD_INFO = new LoadInfo();
 
 	public static Document fromUrl(String url) {
 		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
@@ -49,6 +52,27 @@ public class Util {
 			return writer.toString();
 		} catch (TransformerException ex) {
 			throw new RuntimeException(ex);
+		}
+	}
+
+	@Data
+	public static class LoadInfo {
+		private boolean locked = false;
+		private int totalCount = 0;
+		private int current = 0;
+
+		private void reset() {
+			this.locked = false;
+			this.totalCount = 0;
+			this.current = 0;
+		}
+
+		public void incrementCurrent() {
+			this.current += 1;
+
+			if (this.current == this.totalCount) {
+//				reset();
+			}
 		}
 	}
 }

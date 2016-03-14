@@ -26,6 +26,11 @@ public class ApiController {
 		crawlerService.start("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 3);
 	}
 
+	@RequestMapping("/api/load/status")
+	public ResponseEntity<?> loadStatus() {
+		return ResponseEntity.ok(Util.LOAD_INFO);
+	}
+
 	@RequestMapping("/api")
 	public ResponseEntity<Page<Apartment>> get(Predicate predicate, Pageable pageable) {
 		Page<Apartment> findAll = apartmentRepo.findAll(predicate, pageable);
