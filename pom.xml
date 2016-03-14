@@ -48,9 +48,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- <dependency> <groupId>microsoft</groupId> <artifactId>sqlserver</artifactId> 
-			<version>4.0</version> <systemPath>${basedir}/src/main/lib/sqljdbc4.jar</systemPath> 
-			<scope>system</scope> </dependency> -->
+
+		<dependency>
+			<groupId>microsoft</groupId>
+			<artifactId>sqlserver</artifactId>
+			<version>4.0</version>
+			<systemPath>${basedir}/src/main/lib/sqljdbc4.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

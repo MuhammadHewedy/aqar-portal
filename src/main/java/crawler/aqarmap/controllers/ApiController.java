@@ -23,7 +23,7 @@ public class ApiController {
 
 	@RequestMapping("/api/load")
 	public void load() {
-		crawlerService.start("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 3);
+		crawlerService.start("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 1);
 	}
 
 	@RequestMapping("/api/load/status")
