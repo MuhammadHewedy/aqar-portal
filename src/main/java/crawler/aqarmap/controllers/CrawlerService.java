@@ -38,7 +38,7 @@ public class CrawlerService {
 		if (!Util.LOAD_INFO.isLocked()) {
 			Util.LOAD_INFO.setLocked(true);
 
-			List<ListenableFuture<Apartment>> futures = IntStream.range(1, to + 3).parallel()
+			List<ListenableFuture<Apartment>> futures = IntStream.range(1, to + 3)//.parallel()
 					.mapToObj(page -> url + "&" + Util.PAGE_PARAM + "=" + page)
 					.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl))
 					.map(dUrl -> builder.apartmentFromDetailsUrl(dUrl, city)).collect(Collectors.toList());
