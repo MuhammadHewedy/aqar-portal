@@ -33,6 +33,7 @@ public class ApiController {
 
 	@RequestMapping("/api")
 	public ResponseEntity<Page<Apartment>> get(Predicate predicate, Pageable pageable) {
+
 		Page<Apartment> findAll = apartmentRepo.findAll(predicate, pageable);
 		findAll.forEach(o -> o.setImageUrls(null));
 		return ResponseEntity.ok(findAll);

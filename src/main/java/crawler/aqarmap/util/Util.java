@@ -1,6 +1,8 @@
 package crawler.aqarmap.util;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.xml.transform.Transformer;
@@ -59,20 +61,15 @@ public class Util {
 	public static class LoadInfo {
 		private boolean locked = false;
 		private int totalCount = 0;
-		private int current = 0;
+		private int success = 0;
+		private int failed = 0;
 
-		private void reset() {
-			this.locked = false;
-			this.totalCount = 0;
-			this.current = 0;
+		public void incrementSucc() {
+			this.success += 1;
 		}
 
-		public void incrementCurrent() {
-			this.current += 1;
-
-			if (this.current == this.totalCount) {
-				reset();
-			}
+		public void incrementFail() {
+			this.failed += 1;
 		}
 	}
 }

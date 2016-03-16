@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 
 import crawler.aqarmap.models.Apartment;
 import crawler.aqarmap.models.ApartmentRepo;
+import crawler.aqarmap.models.QApartment;
 import crawler.aqarmap.util.Util;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,31 +43,27 @@ public class CrawlerService {
 					.flatMap(pUrl -> detailsUrlsFromPageUrl(pUrl))
 					.map(dUrl -> builder.apartmentFromDetailsUrl(dUrl, city)).collect(Collectors.toList());
 
-			log.info("setting total count: {}", futures.size());
 			Util.LOAD_INFO.setTotalCount(futures.size());
 
-			log.info("register callbacks for each future...");
 			futures.forEach(f -> f.addCallback(t -> {
-				Long count = apartmentRepo.countByAdNumber(t.getAdNumber());
-				if (count == 0) {
-					apartmentRepo.save(t);
+				if (apartmentRepo.exists(QApartment.apartment.adNumber.eq(t.getAdNumber()))) {
+					log.info("ad {} already exists", t.getAdNumber());
 				} else {
-					log.info("add {} already exists", t.getAdNumber());
+					apartmentRepo.save(t);
 				}
-				Util.LOAD_INFO.incrementCurrent();
+				Util.LOAD_INFO.incrementSucc();
 			}, e -> {
 				e.printStackTrace();
-				Util.LOAD_INFO.incrementCurrent();
+				Util.LOAD_INFO.incrementFail();
 			}));
 
-			log.info("start return successfully");
+			log.info("start method returned successfully.");
 		} else {
-			log.info("already running");
+			log.info("start method still running...., status object is {} ", Util.LOAD_INFO);
 		}
 	}
 
 	private Stream<String> detailsUrlsFromPageUrl(String pageUrl) {
-		log.info("start getting details url for {} ", pageUrl);
 		Document doc = Util.fromUrl(pageUrl);
 		NodeList list;
 		try {
@@ -80,7 +77,6 @@ public class CrawlerService {
 			Node node = list.item(i);
 			builder.add(node.getAttributes().getNamedItem("href").getNodeValue());
 		}
-		log.info("done creating stream of details urls of page {}", pageUrl);
 		return builder.build();
 	}
 

@@ -2,8 +2,17 @@ package crawler.aqarmap.models;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-public interface ApartmentRepo extends JpaRepository<Apartment, Long>, QueryDslPredicateExecutor<Apartment> {
+public interface ApartmentRepo extends JpaRepository<Apartment, Long>, QueryDslPredicateExecutor<Apartment>,
+		QuerydslBinderCustomizer<QApartment> {
 
-	Long countByAdNumber(String adNumber);
+	@SuppressWarnings("unchecked")
+	@Override
+	default void customize(QuerydslBindings bindings, QApartment root) {
+
+		bindings.bind(root.adNumber).first((path, value) -> path.like('%' + value + '%'));
+		bindings.bind(root.numOfRooms).first((path, value) -> path.goe(value));
+	}
 }
