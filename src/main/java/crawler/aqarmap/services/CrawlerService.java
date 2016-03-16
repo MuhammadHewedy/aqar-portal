@@ -1,4 +1,4 @@
-package crawler.aqarmap.controllers;
+package crawler.aqarmap.services;
 
 import static crawler.aqarmap.util.XPathUtils.*;
 
@@ -83,7 +83,7 @@ public class CrawlerService {
 			}
 			return builder.build();
 		} catch (Exception ex) {
-			log.error("error during get details page for: " + pageUrl, ex);
+			log.error("error during get details page for: " + pageUrl + " >> " + ex.getMessage());
 		}
 		return Stream.empty();
 	}

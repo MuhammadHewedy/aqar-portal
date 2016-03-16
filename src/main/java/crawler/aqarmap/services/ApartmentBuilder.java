@@ -1,4 +1,4 @@
-package crawler.aqarmap.controllers;
+package crawler.aqarmap.services;
 
 import static crawler.aqarmap.util.XPathUtils.*;
 

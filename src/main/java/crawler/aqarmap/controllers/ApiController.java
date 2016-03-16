@@ -12,6 +12,7 @@ import com.mysema.query.types.Predicate;
 
 import crawler.aqarmap.models.Apartment;
 import crawler.aqarmap.models.ApartmentRepo;
+import crawler.aqarmap.services.CrawlerService;
 import crawler.aqarmap.util.Util;
 
 @RestController
