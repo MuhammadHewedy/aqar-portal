@@ -22,6 +22,7 @@ public class Apartment {
 	private Long id;
 	private String title;
 	private String city;
+	private String cityRegion;
 	private String district;
 	private String adNumber;
 	private LocalDate adDate;

@@ -1,6 +1,7 @@
 package crawler.aqarmap.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,13 @@ public class ApiController {
 	private CrawlerService crawlerService;
 	@Autowired
 	private ApartmentRepo apartmentRepo;
+	
+	@Value("${search.url}")
+	private String searchUrl;
 
 	@RequestMapping("/api/load")
 	public void load() {
-		crawlerService.start("Riyadh", Util.BASE_URL + Util.SEARCH_URL, 1);
+		crawlerService.start("Riyadh", Util.BASE_URL + searchUrl, 1);
 	}
 
 	@RequestMapping("/api/load/status")
