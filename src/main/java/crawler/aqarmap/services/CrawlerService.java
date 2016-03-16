@@ -55,7 +55,7 @@ public class CrawlerService {
 				}
 				Util.LOAD_INFO.incrementSucc();
 			}, e -> {
-				e.printStackTrace();
+				log.error(e.getMessage());
 				Util.LOAD_INFO.incrementFail();
 			}));
 
