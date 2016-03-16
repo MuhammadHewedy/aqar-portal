@@ -14,12 +14,8 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
 import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.Response;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class UrlService {
 
@@ -27,8 +23,7 @@ public class UrlService {
 	public Document fromUrl(String url) {
 		AsyncHttpClient asyncHttpClient = null;
 		try {
-			log.info("try get document from url {}", url);
-			asyncHttpClient = new AsyncHttpClient(new AsyncHttpClientConfig.Builder().setReadTimeout(2 * 1000).build());
+			asyncHttpClient = new AsyncHttpClient();
 			Future<Response> future = asyncHttpClient.prepareGet(url).execute();
 			Document doc;
 
