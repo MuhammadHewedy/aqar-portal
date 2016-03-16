@@ -1,8 +1,6 @@
 package crawler.aqarmap.util;
 
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.xml.transform.Transformer;
