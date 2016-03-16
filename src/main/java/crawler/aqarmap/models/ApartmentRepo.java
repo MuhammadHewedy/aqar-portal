@@ -12,7 +12,8 @@ public interface ApartmentRepo extends JpaRepository<Apartment, Long>, QueryDslP
 	@Override
 	default void customize(QuerydslBindings bindings, QApartment root) {
 
-		bindings.bind(root.adNumber).first((path, value) -> path.like('%' + value + '%'));
+		bindings.bind(root.adNumber).first((path, value) -> path.contains(value));
 		bindings.bind(root.numOfRooms).first((path, value) -> path.goe(value));
+		bindings.bind(root.adDate).first((path, value) -> path.goe(value));
 	}
 }
