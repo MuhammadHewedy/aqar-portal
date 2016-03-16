@@ -34,7 +34,9 @@ public class ApartmentBuilder {
 		Apartment apartment = new Apartment();
 
 		String[] split = detailsUrl.split("\\/");
-		apartment.setCityRegion(split[split.length - 2]);
+		if (split != null && split.length > 1) {
+			apartment.setCityRegion(split[split.length - 2]);
+		}
 		apartment.setRefUrl(detailsUrl);
 		apartment.setAdNumber(get(doc, AD_NUMBER, String.class));
 		apartment.setPrice(get(doc, PRICE, Long.class));

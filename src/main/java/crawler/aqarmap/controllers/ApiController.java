@@ -24,10 +24,13 @@ public class ApiController {
 	
 	@Value("${search.url}")
 	private String searchUrl;
+	
+	@Value("${search.numPages}")
+	private Integer searchNumPages;
 
 	@RequestMapping("/api/load")
 	public void load() {
-		crawlerService.start("Riyadh", Util.BASE_URL + searchUrl, 1);
+		crawlerService.start("Riyadh", Util.BASE_URL + searchUrl, searchNumPages);
 	}
 
 	@RequestMapping("/api/load/status")
