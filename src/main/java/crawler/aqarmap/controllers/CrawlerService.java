@@ -32,6 +32,8 @@ public class CrawlerService {
 	private ApartmentBuilder builder;
 	@Autowired
 	private ApartmentRepo apartmentRepo;
+	@Autowired
+	private UrlService urlService;
 
 	@Async
 	public void start(String city, String url, Integer to) {
@@ -65,7 +67,7 @@ public class CrawlerService {
 
 	private Stream<String> detailsUrlsFromPageUrl(String pageUrl) {
 		try {
-			Document doc = Util.fromUrl(pageUrl);
+			Document doc = urlService.fromUrl(pageUrl);
 
 			NodeList list;
 			try {

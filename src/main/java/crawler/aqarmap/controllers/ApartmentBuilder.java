@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApartmentBuilder {
 
+	@Autowired
+	private UrlService urlService;
+
 	@Async
 	public ListenableFuture<Apartment> apartmentFromDetailsUrl(String detailsUrl, String city) {
 		log.info("calling details url: {}", detailsUrl);
-		Document doc = Util.fromUrl(Util.BASE_URL + detailsUrl);
+		Document doc = urlService.fromUrl(Util.BASE_URL + detailsUrl);
 
 		Apartment apartment = new Apartment();
 
