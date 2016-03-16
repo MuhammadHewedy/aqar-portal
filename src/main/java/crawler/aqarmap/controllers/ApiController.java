@@ -37,6 +37,11 @@ public class ApiController {
 	public ResponseEntity<?> loadStatus() {
 		return ResponseEntity.ok(Util.LOAD_INFO);
 	}
+	
+	@RequestMapping("/api/load/reset")
+	public void loadReset() {
+		Util.LOAD_INFO.reset();
+	}
 
 	@RequestMapping("/api")
 	public ResponseEntity<Page<Apartment>> get(Predicate predicate, Pageable pageable) {

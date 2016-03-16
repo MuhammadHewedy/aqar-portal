@@ -15,7 +15,6 @@ import org.htmlcleaner.HtmlCleaner;
 import org.w3c.dom.Document;
 
 import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.AsyncHttpClientConfig.Builder;
 import com.ning.http.client.Response;
 
 import lombok.Data;
@@ -27,7 +26,7 @@ public class Util {
 	public static final LoadInfo LOAD_INFO = new LoadInfo();
 
 	public static Document fromUrl(String url) {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new Builder().setReadTimeout(1000 * 1000).build());
+		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		Future<Response> future = asyncHttpClient.prepareGet(url).execute();
 		Document doc;
 		try {
@@ -68,6 +67,12 @@ public class Util {
 
 		public void incrementFail() {
 			this.failed += 1;
+		}
+
+		public void reset() {
+			locked = false;
+			totalCount = success = failed = 0;
+
 		}
 	}
 }
