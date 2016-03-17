@@ -19,7 +19,7 @@ import com.ning.http.client.Response;
 @Service
 public class UrlService {
 
-	@Retryable(maxAttempts = 10)
+	@Retryable
 	public Document fromUrl(String url) {
 		AsyncHttpClient asyncHttpClient = null;
 		try {
