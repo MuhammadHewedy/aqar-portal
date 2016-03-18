@@ -1,7 +1,6 @@
 package aqar.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysema.query.types.Predicate;
 
+import aqar.crawler.CrawlerService;
 import aqar.models.Apartment;
 import aqar.models.ApartmentRepo;
-import aqar.services.CrawlerService;
 import aqar.util.Util;
 
 @RestController
@@ -24,15 +23,9 @@ public class ApiController {
 	@Autowired
 	private ApartmentRepo apartmentRepo;
 
-	@Value("${search.url}")
-	private String searchUrl;
-
-	@Value("${search.numPages}")
-	private Integer searchNumPages;
-
 	@RequestMapping("load")
 	public void load() {
-		crawlerService.start("Riyadh", Util.BASE_URL + searchUrl, searchNumPages);
+		crawlerService.start();
 	}
 
 	@RequestMapping("load/status")

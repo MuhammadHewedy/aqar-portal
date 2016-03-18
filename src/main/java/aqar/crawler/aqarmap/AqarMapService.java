@@ -1,39 +1,75 @@
-package aqar.services;
+package aqar.crawler.aqarmap;
 
+import static aqar.crawler.aqarmap.Util.*;
 import static aqar.util.XPathUtils.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Stream.Builder;
+
+import javax.xml.xpath.XPathConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import aqar.crawler.AqarService;
 import aqar.models.Apartment;
-import aqar.util.Util;
+import aqar.services.UrlService;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
-public class ApartmentBuilder {
+@Service
+class AqarMapService implements AqarService {
 
+	@Value("${services.aqarmap.baseUrl}")
+	private String baseUrl;
+	@Value("${services.aqarmap.searchUrl}")
+	private String searchUrl;
 	@Autowired
 	private UrlService urlService;
 
+	@Override
+	public String getSearchUrl(int page) {
+		return baseUrl + searchUrl + "&page=" + page;
+	}
+
+	@Override
+	public Stream<String> getDetailsUrls(String searchUrl) {
+		try {
+			Document doc = urlService.fromUrl(searchUrl);
+			NodeList list = (NodeList) DETAILS_URLS.evaluate(doc, XPathConstants.NODESET);
+			log.info("found {} details urls, in page URL: {}", list.getLength(), searchUrl);
+
+			Builder<String> builder = Stream.builder();
+			for (int i = 0; i < list.getLength(); i++) {
+				Node node = list.item(i);
+				builder.add(node.getAttributes().getNamedItem("href").getNodeValue());
+			}
+			return builder.build();
+		} catch (Exception ex) {
+			log.error("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
+		}
+		return Stream.empty();
+	}
+
+	@Override
+	public int getPagesNumber() {
+		return 1;
+	}
+
 	@Async
-	public ListenableFuture<Apartment> apartmentFromDetailsUrl(String detailsUrl, String city) {
+	@Override
+	public ListenableFuture<Apartment> buildApartement(String detailsUrl) {
 		log.info("calling details url: {}", detailsUrl);
-		Document doc = urlService.fromUrl(Util.BASE_URL + detailsUrl);
+		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
 		Apartment apartment = new Apartment();
 
@@ -41,7 +77,7 @@ public class ApartmentBuilder {
 		if (split != null && split.length > 1) {
 			apartment.setCityRegion(split[split.length - 2]);
 		}
-		apartment.setRefUrl(detailsUrl);
+		apartment.setRefUrl(baseUrl + detailsUrl);
 		apartment.setAdNumber(get(doc, AD_NUMBER, String.class));
 		apartment.setPrice(get(doc, PRICE, Long.class));
 		apartment
@@ -55,7 +91,7 @@ public class ApartmentBuilder {
 		apartment.setFloorNumber(get(doc, FLOOR_NUMBER, Long.class));
 		apartment.setNumOfRooms(get(doc, NUM_OF_ROOMS, Long.class));
 		apartment.setAdvertiser(get(doc, ADVERTISER, String.class));
-		apartment.setCity(city);
+		apartment.setCity("");
 		apartment.setPayMethod(get(doc, PAY_METHOD, String.class));
 		apartment.setTitle(get(doc, TITLE, String.class));
 		apartment.setWcNumber(get(doc, WC_NUMBER, Long.class));
@@ -66,42 +102,4 @@ public class ApartmentBuilder {
 		return new AsyncResult<Apartment>(apartment);
 	}
 
-	private List<String> getImageUrls(Document doc) {
-		List<String> list = new ArrayList<>();
-		NodeList nodeList = get(doc, IMG_URLS, NodeList.class);
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element e = (Element) nodeList.item(i);
-			list.add(e.getAttribute("src"));
-		}
-		return list;
-	}
-
-	private String getMobile(Document doc) {
-		Element ele = ((Element) get(doc, AD_MOBILE, Node.class));
-		if (ele != null) {
-			String mobile = ele.getAttribute("data-number");
-			try {
-				String decode = URLDecoder.decode(mobile, "utf8");
-				decode = !decode.startsWith("0") ? "0" + decode : decode;
-				return decode;
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	private void setLatAndLong(Document doc, Apartment apartment) {
-		Node node = get(doc, LAT_LONG, Node.class);
-		if (node != null) {
-			Element e = (Element) node;
-			String attribute = e.getAttribute("ng-init");
-			if (attribute != null && attribute.contains("initListingLocation")) {
-				apartment.setLatitude(
-						Double.valueOf(attribute.substring(attribute.indexOf('(') + 1, attribute.indexOf(',')).trim()));
-				apartment.setLongitude(
-						Double.valueOf(attribute.substring(attribute.indexOf(',') + 1, attribute.indexOf(')')).trim()));
-			}
-		}
-	}
 }

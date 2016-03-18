@@ -14,10 +14,10 @@ import lombok.Data;
 
 public class Util {
 
-	public static final String PAGE_PARAM = "page";
-	public static final String BASE_URL = "https://ksa.aqarmap.com";
+	// TODO convert to Bean
 	public static final LoadInfo LOAD_INFO = new LoadInfo();
 
+	// used for debugging to print the html page
 	public static String getStringFromDocument(Document doc) {
 		try {
 			DOMSource domSource = new DOMSource(doc);
