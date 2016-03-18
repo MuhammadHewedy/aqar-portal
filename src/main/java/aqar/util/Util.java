@@ -1,4 +1,4 @@
-package crawler.aqarmap.util;
+package aqar.util;
 
 import java.io.StringWriter;
 

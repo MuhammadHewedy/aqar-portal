@@ -1,4 +1,4 @@
-package crawler.aqarmap.models;
+package aqar.models;
 
 import java.time.LocalDate;
 import java.util.List;

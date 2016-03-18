@@ -1,4 +1,4 @@
-package crawler.aqarmap.services;
+package aqar.services;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

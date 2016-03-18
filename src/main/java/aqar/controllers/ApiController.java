@@ -1,4 +1,4 @@
-package crawler.aqarmap.controllers;
+package aqar.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,41 +10,42 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysema.query.types.Predicate;
 
-import crawler.aqarmap.models.Apartment;
-import crawler.aqarmap.models.ApartmentRepo;
-import crawler.aqarmap.services.CrawlerService;
-import crawler.aqarmap.util.Util;
+import aqar.models.Apartment;
+import aqar.models.ApartmentRepo;
+import aqar.services.CrawlerService;
+import aqar.util.Util;
 
 @RestController
+@RequestMapping("/api")
 public class ApiController {
 
 	@Autowired
 	private CrawlerService crawlerService;
 	@Autowired
 	private ApartmentRepo apartmentRepo;
-	
+
 	@Value("${search.url}")
 	private String searchUrl;
-	
+
 	@Value("${search.numPages}")
 	private Integer searchNumPages;
 
-	@RequestMapping("/api/load")
+	@RequestMapping("load")
 	public void load() {
 		crawlerService.start("Riyadh", Util.BASE_URL + searchUrl, searchNumPages);
 	}
 
-	@RequestMapping("/api/load/status")
+	@RequestMapping("load/status")
 	public ResponseEntity<?> loadStatus() {
 		return ResponseEntity.ok(Util.LOAD_INFO);
 	}
-	
-	@RequestMapping("/api/load/reset")
+
+	@RequestMapping("load/reset")
 	public void loadReset() {
 		Util.LOAD_INFO.reset();
 	}
 
-	@RequestMapping("/api")
+	@RequestMapping
 	public ResponseEntity<Page<Apartment>> get(Predicate predicate, Pageable pageable) {
 
 		Page<Apartment> findAll = apartmentRepo.findAll(predicate, pageable);

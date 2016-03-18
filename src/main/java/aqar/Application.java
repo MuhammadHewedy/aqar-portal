@@ -1,4 +1,4 @@
-package crawler.aqarmap;
+package aqar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,12 +10,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableRetry
 @EnableAsync
 @SpringBootApplication
-@EntityScan(basePackageClasses = { AqarmapCrawlerApplication.class, Jsr310JpaConverters.class })
-public class AqarmapCrawlerApplication {
+@EntityScan(basePackageClasses = { Application.class, Jsr310JpaConverters.class })
+public class Application {
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(AqarmapCrawlerApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

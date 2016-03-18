@@ -1,4 +1,4 @@
-package crawler.aqarmap.models;
+package aqar.models;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;

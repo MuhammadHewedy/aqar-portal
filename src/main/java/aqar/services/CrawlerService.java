@@ -1,6 +1,6 @@
-package crawler.aqarmap.services;
+package aqar.services;
 
-import static crawler.aqarmap.util.XPathUtils.*;
+import static aqar.util.XPathUtils.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,10 +18,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import crawler.aqarmap.models.Apartment;
-import crawler.aqarmap.models.ApartmentRepo;
-import crawler.aqarmap.models.QApartment;
-import crawler.aqarmap.util.Util;
+import aqar.models.Apartment;
+import aqar.models.ApartmentRepo;
+import aqar.models.QApartment;
+import aqar.util.Util;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
