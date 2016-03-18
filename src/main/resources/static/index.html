@@ -12,20 +12,16 @@
 <title>My AngularJS App</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="bower_components/html5-boilerplate/dist/css/normalize.css">
-<link rel="stylesheet"
-	href="bower_components/html5-boilerplate/dist/css/main.css">
+<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
 
-<!-- <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<link href="bower_components/bootstrap-rtl/dist/cdnjs/3.3.1/css/bootstrap-rtl.css" rel="stylesheet">
-<link href="bower_components/metisMenu/dist/metisMenu.min.css"
-	rel="stylesheet">
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+<link href="bower_components/morrisjs/morris.css" rel="stylesheet">
+<link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 <link href="css/timeline.css" rel="stylesheet">
 <link href="css/sb-admin-2.css" rel="stylesheet">
-<link href="bower_components/morrisjs/morris.css" rel="stylesheet">
-<link href="bower_components/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
 <link href="css/main.css" rel="stylesheet">
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -33,17 +29,18 @@
   <![endif]-->
 
 <link rel="stylesheet" href="app.css">
-<script
-	src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+
 </head>
 <body class="ng-cloak">
 
 
-	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}"
-		close="closeAlert($index)" dismiss-on-timeout="{{alert.timeout}}">{{alert.msg
-	| translate }}</uib-alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"
+		dismiss-on-timeout="{{alert.timeout}}">{{alert.msg | translate }}</uib-alert>
 
-	<div style="padding-right: 25px;" ng-view ></div>
+	<div id="wrapper">
+		<div ng-view id="page-wrapper"></div>
+	</div>
 
 	<!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -56,6 +53,8 @@
   -->
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
 	<script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -63,8 +62,7 @@
 	<script src="bower_components/angular-animate/angular-animate.js"></script>
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script src="bower_components/angular-translate/angular-translate.js"></script>
-	<script
-		src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+	<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 
 	<script src="app.js"></script>
 	<!--  ng services -->
@@ -80,5 +78,6 @@
 
 	<script src="util.js"></script>
 	<script src="js/sb-admin-2.js"></script>
+
 </body>
 </html>

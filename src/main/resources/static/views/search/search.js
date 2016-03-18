@@ -10,8 +10,8 @@ angular.module('myApp')
 } ])
 
 .controller('SearchCtrl', [ '$scope', 'Apartment', function($scope, Apartment) {
-	
-	Apartment.query(function(apartments){
+
+	Apartment.query(function(apartments) {
 		$scope.apartments = apartments.content;
 		console.log($scope.apartments);
 	});
