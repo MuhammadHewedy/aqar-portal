@@ -1,6 +1,8 @@
 package aqar.util;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -30,7 +32,7 @@ public class XPathUtils {
 		try {
 			if (clazz == Node.class) {
 				value = exp.evaluate(doc, XPathConstants.NODE);
-			} else if (clazz == NodeList.class) {
+			} else if (clazz == List.class) {
 				value = exp.evaluate(doc, XPathConstants.NODESET);
 			} else {
 				value = exp.evaluate(doc);
@@ -53,6 +55,13 @@ public class XPathUtils {
 			} else {
 				return null;
 			}
+		} else if (List.class.isAssignableFrom(clazz)) {
+			NodeList nodeList = (NodeList) value;
+			List<Node> list = new ArrayList<>();
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				list.add(nodeList.item(i));
+			}
+			return (T) list;
 		} else {
 			return (T) value;
 		}

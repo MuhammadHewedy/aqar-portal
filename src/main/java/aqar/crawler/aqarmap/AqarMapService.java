@@ -5,6 +5,7 @@ import static aqar.util.XPathUtils.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.Stream.Builder;
 
@@ -17,6 +18,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -60,9 +62,16 @@ class AqarMapService implements AqarService {
 		return Stream.empty();
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public int getPagesNumber() {
-		return 1;
+		log.debug("calculating page numbers for...");
+		Document doc = urlService.fromUrl(baseUrl + searchUrl + "&page=" + 1);
+		List<Node> list = get(doc, PAGE, List.class);
+		String href = ((Element) list.get(list.size() - 1)).getAttribute("href");
+		int pages = Integer.parseInt(href.substring(href.lastIndexOf('=') + 1));
+		log.info("pages number: {}", pages);
+		return pages;
 	}
 
 	@Async
