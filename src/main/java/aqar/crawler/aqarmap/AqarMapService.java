@@ -7,9 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Stream;
-import java.util.stream.Stream.Builder;
-
-import javax.xml.xpath.XPathConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +17,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import aqar.crawler.AqarService;
 import aqar.models.Apartment;
@@ -46,23 +42,18 @@ class AqarMapService implements AqarService {
 		return baseUrl + searchUrl + "&page=" + page;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Stream<String> getDetailsUrls(String searchUrl) {
 		try {
 			Document doc = urlService.fromUrl(searchUrl);
-			NodeList list = (NodeList) DETAILS_URLS.evaluate(doc, XPathConstants.NODESET);
-			log.info("found {} details urls, in page URL: {}", list.getLength(), searchUrl);
-
-			Builder<String> builder = Stream.builder();
-			for (int i = 0; i < list.getLength(); i++) {
-				Node node = list.item(i);
-				builder.add(node.getAttributes().getNamedItem("href").getNodeValue());
-			}
-			return builder.build();
+			List<Node> list = get(doc, DETAILS_URLS, List.class);
+			log.info("found {} details urls, in page URL: {}", list.size(), searchUrl);
+			return list.stream().map(n -> ((Element) n).getAttribute("href"));
 		} catch (Exception ex) {
 			log.error("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
+			return Stream.empty();
 		}
-		return Stream.empty();
 	}
 
 	@SuppressWarnings({ "unchecked" })
