@@ -3,6 +3,7 @@ package aqar.crawler;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -22,21 +23,19 @@ public class CrawlerService {
 	@Autowired
 	private ApartmentRepo apartmentRepo;
 	@Autowired
-	private AqarService aqarService;
+	private List<AqarService> aqarServices;
 
 	@Async
 	public void start() {
 		if (!Util.LOAD_INFO.isLocked()) {
 			Util.LOAD_INFO.setLocked(true);
 
-			List<ListenableFuture<Apartment>> futures = IntStream.rangeClosed(1, aqarService.getPagesNumber())
-					.parallel().mapToObj(page -> aqarService.getSearchUrl(page))
-					.flatMap(sUrl -> aqarService.getDetailsUrls(sUrl)).map(dUrl -> aqarService.buildApartement(dUrl))
+			List<ListenableFuture<Apartment>> apartements = aqarServices.stream().flatMap(aq -> getApartements(aq))
 					.collect(Collectors.toList());
 
-			Util.LOAD_INFO.setTotalCount(futures.size());
+			Util.LOAD_INFO.setTotalCount(apartements.size());
 
-			futures.forEach(f -> f.addCallback(t -> {
+			apartements.forEach(f -> f.addCallback(t -> {
 				if (apartmentRepo.exists(QApartment.apartment.adNumber.eq(t.getAdNumber()))) {
 					log.info("ad {} already exists", t.getAdNumber());
 				} else {
@@ -52,5 +51,11 @@ public class CrawlerService {
 		} else {
 			log.info("start method still running...., status object is {} ", Util.LOAD_INFO);
 		}
+	}
+
+	private Stream<ListenableFuture<Apartment>> getApartements(AqarService aqarService) {
+		return IntStream.rangeClosed(1, aqarService.getPagesNumber()).parallel()
+				.mapToObj(page -> aqarService.getSearchUrl(page)).flatMap(sUrl -> aqarService.getDetailsUrls(sUrl))
+				.map(dUrl -> aqarService.buildApartement(dUrl));
 	}
 }
