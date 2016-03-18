@@ -68,7 +68,6 @@ class AqarMapService implements AqarService {
 	@Async
 	@Override
 	public ListenableFuture<Apartment> buildApartement(String detailsUrl) {
-		log.info("calling details url: {}", detailsUrl);
 		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
 		Apartment apartment = new Apartment();

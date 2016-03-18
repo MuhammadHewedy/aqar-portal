@@ -16,11 +16,15 @@ import org.w3c.dom.Document;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class UrlService {
 
 	@Retryable
 	public Document fromUrl(String url) {
+		log.debug("calling url {}", url);
 		AsyncHttpClient asyncHttpClient = null;
 		try {
 			asyncHttpClient = new AsyncHttpClient();
