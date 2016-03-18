@@ -15,6 +15,8 @@ public interface AqarService {
 
 	int getPagesNumber();
 
+	boolean enabled();
+
 	/**
 	 * The implementation methods should be annotated by {@link Async}
 	 * annotation

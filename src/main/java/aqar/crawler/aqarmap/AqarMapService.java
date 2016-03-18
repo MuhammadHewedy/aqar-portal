@@ -35,6 +35,9 @@ class AqarMapService implements AqarService {
 	private String baseUrl;
 	@Value("${services.aqarmap.searchUrl}")
 	private String searchUrl;
+	@Value("${services.aqarmap.enabled:false}")
+	private boolean enabled;
+
 	@Autowired
 	private UrlService urlService;
 
@@ -110,4 +113,8 @@ class AqarMapService implements AqarService {
 		return new AsyncResult<Apartment>(apartment);
 	}
 
+	@Override
+	public boolean enabled() {
+		return enabled;
+	}
 }

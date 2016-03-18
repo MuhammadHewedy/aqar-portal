@@ -30,8 +30,8 @@ public class CrawlerService {
 		if (!Util.LOAD_INFO.isLocked()) {
 			Util.LOAD_INFO.setLocked(true);
 
-			List<ListenableFuture<Apartment>> apartements = aqarServices.stream().flatMap(aq -> getApartements(aq))
-					.collect(Collectors.toList());
+			List<ListenableFuture<Apartment>> apartements = aqarServices.stream().filter(aq -> aq.enabled())
+					.flatMap(aq -> getApartements(aq)).collect(Collectors.toList());
 
 			Util.LOAD_INFO.setTotalCount(apartements.size());
 
