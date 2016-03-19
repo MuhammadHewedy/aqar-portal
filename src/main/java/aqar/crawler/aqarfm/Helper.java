@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
 import aqar.models.Apartment;
 import aqar.util.XPathUtils;
 
-class Util {
+class Helper {
 	
 	private static final String TABLE_XPATH = "/html/body/div[4]/div[2]/table/tbody/tr/td[contains(text(),'%s')]";
 

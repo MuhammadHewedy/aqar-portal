@@ -1,6 +1,6 @@
 package aqar.crawler.aqarmap;
 
-import static aqar.crawler.aqarmap.Util.*;
+import static aqar.crawler.aqarmap.Helper.*;
 import static aqar.util.XPathUtils.*;
 
 import java.time.LocalDate;

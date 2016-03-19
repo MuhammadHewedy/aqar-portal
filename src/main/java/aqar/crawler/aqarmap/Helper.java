@@ -17,7 +17,7 @@ import org.w3c.dom.Node;
 import aqar.models.Apartment;
 import aqar.util.XPathUtils;
 
-class Util {
+class Helper {
 	private static final String TABLE_XPATH = "/html/body/div[3]/div[1]/div/section/table/tbody/tr/td[contains(text(),'%s')]//following-sibling::td";
 
 	static final XPathExpression DETAILS_URLS;

@@ -1,6 +1,6 @@
 package aqar.crawler.aqarfm;
 
-import static aqar.crawler.aqarfm.Util.*;
+import static aqar.crawler.aqarfm.Helper.*;
 import static aqar.util.XPathUtils.*;
 
 import java.time.LocalDate;
