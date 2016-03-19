@@ -62,7 +62,8 @@ public class AqarfmService implements AqarService {
 		String href = ((Element) list.get(list.size() - 1)).getAttribute("href");
 		int page = Integer.parseInt(href.substring(href.lastIndexOf('/') + 1));
 		log.info("page numbers: {} ", page);
-		return page;
+		// return page;
+		return 1;
 	}
 
 	@Override
@@ -73,9 +74,21 @@ public class AqarfmService implements AqarService {
 	@Async
 	@Override
 	public ListenableFuture<Apartment> buildApartement(String detailsUrl) {
+
+		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
+
 		Apartment apartment = new Apartment();
-		apartment.setAdNumber("fm-134324");
+
+		setAddress(doc, apartment);
+		apartment.setPrice(get(doc, PRICE, Long.class));
+		apartment.setLatitude(get(doc, GLAT, Double.class));
+		apartment.setLongitude(get(doc, GLONG, Double.class));
+		apartment.setAdNumber("aqarfm-" + get(doc, AD_NUMBER, String.class));
 		apartment.setRefUrl(baseUrl + detailsUrl);
+		apartment.setTitle(get(doc, TITLE, String.class));
+		
+		// TODO add rest of fields
+		
 		return new AsyncResult<Apartment>(apartment);
 	}
 

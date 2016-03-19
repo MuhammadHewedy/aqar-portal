@@ -80,7 +80,7 @@ class AqarMapService implements AqarService {
 			apartment.setCityRegion(split[split.length - 2]);
 		}
 		apartment.setRefUrl(baseUrl + detailsUrl);
-		apartment.setAdNumber(get(doc, AD_NUMBER, String.class));
+		apartment.setAdNumber("aqarmap-" + get(doc, AD_NUMBER, String.class));
 		apartment.setPrice(get(doc, PRICE, Long.class));
 		apartment
 				.setAdDate(LocalDate.parse(get(doc, AD_DATE, String.class), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
