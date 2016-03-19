@@ -42,15 +42,19 @@ public class XPathUtils {
 		}
 
 		if (Number.class.isAssignableFrom(clazz)) {
-			String sValue = value.toString();
-			sValue = sValue.replaceAll("[^\\d.]", "");
-			if (sValue.length() > 0) {
-				try {
-					Method method = clazz.getMethod("valueOf", String.class);
-					Object o = method.invoke(null, sValue);
-					return (T) o;
-				} catch (Exception e) {
-					throw new RuntimeException(e);
+			if (value != null) {
+				String sValue = value.toString();
+				sValue = sValue.replaceAll("[^\\d.]", "");
+				if (sValue.length() > 0) {
+					try {
+						Method method = clazz.getMethod("valueOf", String.class);
+						Object o = method.invoke(null, sValue);
+						return (T) o;
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				} else {
+					return null;
 				}
 			} else {
 				return null;

@@ -30,12 +30,12 @@ public class ApiController {
 
 	@RequestMapping("load/status")
 	public ResponseEntity<?> loadStatus() {
-		return ResponseEntity.ok(Util.LOAD_INFO);
+		return ResponseEntity.ok(Util.loadInfo);
 	}
 
 	@RequestMapping("load/reset")
 	public void loadReset() {
-		Util.LOAD_INFO.reset();
+		Util.loadInfo.reset();
 	}
 
 	@RequestMapping

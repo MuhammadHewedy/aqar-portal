@@ -1,6 +1,7 @@
 package aqar.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -43,6 +44,6 @@ public class Apartment {
 	private Double longitude;
 	@Column(length = 2000)
 	@ElementCollection(fetch = FetchType.LAZY)
-	private List<String> imageUrls;
+	private List<String> imageUrls = new ArrayList<>();
 	private String refUrl;
 }

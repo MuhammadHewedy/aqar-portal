@@ -3,6 +3,7 @@ package aqar.crawler.aqarfm;
 import static aqar.crawler.aqarfm.Util.*;
 import static aqar.util.XPathUtils.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -62,8 +63,7 @@ public class AqarfmService implements AqarService {
 		String href = ((Element) list.get(list.size() - 1)).getAttribute("href");
 		int page = Integer.parseInt(href.substring(href.lastIndexOf('/') + 1));
 		log.info("page numbers: {} ", page);
-		// return page;
-		return 1;
+		return page;
 	}
 
 	@Override
@@ -78,18 +78,38 @@ public class AqarfmService implements AqarService {
 		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
 		Apartment apartment = new Apartment();
+		List<String> imageUrls = getImages(doc);
 
-		setAddress(doc, apartment);
-		apartment.setPrice(get(doc, PRICE, Long.class));
-		apartment.setLatitude(get(doc, GLAT, Double.class));
-		apartment.setLongitude(get(doc, GLONG, Double.class));
-		apartment.setAdNumber("aqarfm-" + get(doc, AD_NUMBER, String.class));
-		apartment.setRefUrl(baseUrl + detailsUrl);
-		apartment.setTitle(get(doc, TITLE, String.class));
-		
-		// TODO add rest of fields
-		
-		return new AsyncResult<Apartment>(apartment);
+		if (imageUrls != null && !imageUrls.isEmpty()) {
+			apartment.setImageUrls(imageUrls);
+			setAddress(doc, apartment);
+			Long price = get(doc, PRICE, Long.class);
+			if (price != null) {
+				apartment.setPrice(price * 1000);
+			}
+			apartment.setLatitude(get(doc, GLAT, Double.class));
+			apartment.setLongitude(get(doc, GLONG, Double.class));
+			apartment.setAdNumber("aqarfm-" + get(doc, AD_NUMBER, String.class));
+			apartment.setTitle(get(doc, TITLE, String.class));
+			apartment.setRefUrl(get(doc, REF_URL, String.class));
+			apartment.setFloorNumber(get(doc, FLOOR, Long.class));
+			apartment.setNumOfRooms(get(doc, ROOM, Long.class));
+			apartment.setWcNumber(get(doc, PATH_ROOMS, Long.class));
+			Long buildYear = get(doc, BUILD_YEAR, Long.class);
+			if (buildYear != null) {
+				apartment.setBuildYear(LocalDate.now().getYear() - buildYear);
+			}
+			setDesc(doc, apartment);
+
+			// TODO
+			// set ad date
+			// set area
+			// contact person
+
+			return new AsyncResult<Apartment>(apartment);
+		} else {
+			log.info("skipping {}, no images found", detailsUrl);
+			return AsyncResult.forValue(null);
+		}
 	}
-
 }

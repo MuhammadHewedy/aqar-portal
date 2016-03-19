@@ -42,9 +42,9 @@ class Util {
 	static final XPathExpression PAGE;
 	
 	
+	@SuppressWarnings("unchecked")
 	static List<String> getImageUrls(Document doc) {
 		List<String> list = new ArrayList<>();
-		@SuppressWarnings("unchecked")
 		List<Node> nodeList = get(doc, IMG_URLS, List.class);
 		nodeList.forEach((e) -> {
 			list.add(((Element) e).getAttribute("src"));

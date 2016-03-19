@@ -1,5 +1,7 @@
 package aqar.crawler;
 
+import static aqar.util.Util.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,7 +15,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 import aqar.models.Apartment;
 import aqar.models.ApartmentRepo;
 import aqar.models.QApartment;
-import aqar.util.Util;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,29 +28,32 @@ public class CrawlerService {
 
 	@Async
 	public void start() {
-		if (!Util.LOAD_INFO.isLocked()) {
-			Util.LOAD_INFO.setLocked(true);
+		if (!loadInfo.isLocked()) {
+			loadInfo.setLocked(true);
 
 			List<ListenableFuture<Apartment>> apartements = aqarServices.stream().filter(aq -> aq.enabled())
 					.flatMap(aq -> getApartements(aq)).collect(Collectors.toList());
-
-			Util.LOAD_INFO.setTotalCount(apartements.size());
+			loadInfo.setTotalCount(apartements.size());
 
 			apartements.forEach(f -> f.addCallback(t -> {
-				if (apartmentRepo.exists(QApartment.apartment.adNumber.eq(t.getAdNumber()))) {
-					log.info("ad {} already exists", t.getAdNumber());
+				if (t == null) {
+					loadInfo.incrementFail();
 				} else {
-					apartmentRepo.save(t);
+					if (apartmentRepo.exists(QApartment.apartment.adNumber.eq(t.getAdNumber()))) {
+						log.info("ad {} already exists", t.getAdNumber());
+					} else {
+						apartmentRepo.save(t);
+					}
+					loadInfo.incrementSucc();
 				}
-				Util.LOAD_INFO.incrementSucc();
 			}, e -> {
 				log.error(e.getMessage(), e);
-				Util.LOAD_INFO.incrementFail();
+				loadInfo.incrementFail();
 			}));
 
 			log.info("start method returned successfully.");
 		} else {
-			log.info("start method still running...., status object is {} ", Util.LOAD_INFO);
+			log.info("start method still running...., status object is {} ", loadInfo);
 		}
 	}
 

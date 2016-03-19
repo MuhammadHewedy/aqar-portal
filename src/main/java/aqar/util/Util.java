@@ -15,7 +15,7 @@ import lombok.Data;
 public class Util {
 
 	// TODO convert to Bean
-	public static final LoadInfo LOAD_INFO = new LoadInfo();
+	public static final LoadInfo loadInfo = new LoadInfo();
 
 	// used for debugging to print the html page
 	public static String getStringFromDocument(Document doc) {
