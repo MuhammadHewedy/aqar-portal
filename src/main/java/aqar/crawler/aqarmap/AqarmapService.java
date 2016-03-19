@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-class AqarMapService implements AqarService {
+class AqarmapService implements AqarService {
 
 	@Value("${services.aqarmap.baseUrl}")
 	private String baseUrl;
