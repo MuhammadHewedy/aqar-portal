@@ -15,7 +15,7 @@ angular.module('myApp', [ 'ngRoute', 'ngResource', 'ui.bootstrap', 'ngMessages',
 
 	$httpProvider.interceptors.push('response_interceptor');
 
-	$translateProvider.preferredLanguage('en');
+	$translateProvider.preferredLanguage('ar');
 	$translateProvider.useSanitizeValueStrategy('escape');
 	$translateProvider.useStaticFilesLoader({
 		prefix : '/languages/',

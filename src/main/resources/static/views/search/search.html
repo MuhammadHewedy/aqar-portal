@@ -7,22 +7,25 @@
 					<table class="table table-striped table-bordered table-hover" id="dataTables-example">
 						<thead>
 							<tr>
-								<th>Rendering engine</th>
-								<th>Browser</th>
-								<th>Platform(s)</th>
-								<th>Engine version</th>
-								<th>CSS grade</th>
+								<th>Title</th>
+								<th>District</th>
+								<th>Price</th>
+								<th>Number of Rooms</th>
+								<th>Floor Number</th>
+								<th>Number of Paths</th>
+								<th>Build Year</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="odd gradeX">
-								<td>Trident</td>
-								<td>Internet Explorer 4.0</td>
-								<td>Win 95+</td>
-								<td class="center">4</td>
-								<td class="center">X</td>
+							<tr class="odd gradeX" ng-repeat="apartment in apartments">
+								<td>{{apartment.title}}</td>
+								<td>{{apartment.district}}</td>
+								<td>{{apartment.price}}</td>
+								<td>{{apartment.numOfRooms}}</td>
+								<td>{{apartment.floorNumber}}</td>
+								<td>{{apartment.wcNumber}}</td>
+								<td>{{apartment.buildYear}}</td>								
 							</tr>
-
 						</tbody>
 					</table>
 				</div>
