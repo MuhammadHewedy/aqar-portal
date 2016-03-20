@@ -35,9 +35,10 @@ public class Util {
 	@Data
 	public static class LoadInfo {
 		private boolean locked = false;
-		private int totalCount = 0;
 		private int success = 0;
 		private int failed = 0;
+		private int nullObj = 0;
+		private int dup = 0;
 
 		public void incrementSucc() {
 			this.success += 1;
@@ -47,10 +48,16 @@ public class Util {
 			this.failed += 1;
 		}
 
+		public void incrementNullObj() {
+			this.nullObj += 1;
+		}
+
+		public void incrementDup() {
+			this.dup += 1;
+		}
+
 		public void reset() {
 			locked = false;
-			totalCount = success = failed = 0;
-
 		}
 	}
 }

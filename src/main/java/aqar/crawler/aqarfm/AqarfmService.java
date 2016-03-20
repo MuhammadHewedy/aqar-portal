@@ -42,16 +42,17 @@ class AqarfmService implements AqarService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Async
 	@Override
-	public Stream<String> getDetailsUrls(String searchUrl) {
+	public ListenableFuture<Stream<String>> getDetailsUrls(String searchUrl) {
 		try {
 			Document doc = urlService.fromUrl(searchUrl);
 			List<Node> list = get(doc, DETAILS_URLS, List.class);
 			log.info("found {} details urls, in page URL: {}", list.size(), searchUrl);
-			return list.stream().map(n -> ((Element) n).getAttribute("href"));
+			return new AsyncResult<>(list.stream().map(n -> ((Element) n).getAttribute("href")));
 		} catch (Exception ex) {
 			log.error("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
-			return Stream.empty();
+			return new AsyncResult<>(Stream.empty());
 		}
 	}
 
@@ -71,9 +72,8 @@ class AqarfmService implements AqarService {
 		return enabled;
 	}
 
-	@Async
 	@Override
-	public ListenableFuture<Apartment> buildApartement(String detailsUrl) {
+	public Apartment buildApartement(String detailsUrl) {
 
 		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
@@ -106,10 +106,10 @@ class AqarfmService implements AqarService {
 			// set area
 			// contact person
 
-			return new AsyncResult<Apartment>(apartment);
+			return apartment;
 		} else {
 			log.info("skipping {}, no images found", detailsUrl);
-			return AsyncResult.forValue(null);
+			return null;
 		}
 	}
 }

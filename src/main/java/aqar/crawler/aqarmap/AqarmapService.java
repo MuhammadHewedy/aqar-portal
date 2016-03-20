@@ -43,16 +43,17 @@ class AqarmapService implements AqarService {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Async
 	@Override
-	public Stream<String> getDetailsUrls(String searchUrl) {
+	public ListenableFuture<Stream<String>> getDetailsUrls(String searchUrl) {
 		try {
 			Document doc = urlService.fromUrl(searchUrl);
 			List<Node> list = get(doc, DETAILS_URLS, List.class);
 			log.info("found {} details urls, in page URL: {}", list.size(), searchUrl);
-			return list.stream().map(n -> ((Element) n).getAttribute("href"));
+			return new AsyncResult<>(list.stream().map(n -> ((Element) n).getAttribute("href")));
 		} catch (Exception ex) {
 			log.error("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
-			return Stream.empty();
+			return new AsyncResult<>(Stream.empty());
 		}
 	}
 
@@ -68,9 +69,8 @@ class AqarmapService implements AqarService {
 		return pages;
 	}
 
-	@Async
 	@Override
-	public ListenableFuture<Apartment> buildApartement(String detailsUrl) {
+	public Apartment buildApartement(String detailsUrl) {
 		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
 		Apartment apartment = new Apartment();
@@ -101,7 +101,7 @@ class AqarmapService implements AqarService {
 		apartment.setImageUrls(getImageUrls(doc));
 		setLatAndLong(doc, apartment);
 
-		return new AsyncResult<Apartment>(apartment);
+		return apartment;
 	}
 
 	@Override

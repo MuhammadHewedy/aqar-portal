@@ -18,12 +18,14 @@ public interface AqarService {
 	String getSearchUrl(int page);
 
 	/**
+	 * The implementation methods should be annotated by {@link Async}
+	 * annotation <br />
 	 * get details Urls from the search url
 	 * 
 	 * @param searchUrl
 	 * @return
 	 */
-	Stream<String> getDetailsUrls(String searchUrl);
+	ListenableFuture<Stream<String>> getDetailsUrls(String searchUrl);
 
 	/**
 	 * get number of pages available to be iterated over it
@@ -40,13 +42,11 @@ public interface AqarService {
 	boolean enabled();
 
 	/**
-	 * The implementation methods should be annotated by {@link Async}
-	 * annotation <br />
 	 * Used to build the {@link Apartment} object from the details url
 	 * 
 	 * @param detailsUrl
 	 * @return a {@link ListenableFuture} as a promise of the {@link Apartment}
 	 *         object
 	 */
-	ListenableFuture<Apartment> buildApartement(String detailsUrl);
+	Apartment buildApartement(String detailsUrl);
 }
