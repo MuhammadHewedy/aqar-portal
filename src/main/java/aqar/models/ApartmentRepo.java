@@ -14,6 +14,6 @@ public interface ApartmentRepo extends JpaRepository<Apartment, Long>, QueryDslP
 
 		bindings.bind(root.adNumber).first((path, value) -> path.contains(value));
 		bindings.bind(root.numOfRooms).first((path, value) -> path.goe(value));
-		bindings.bind(root.adDate).first((path, value) -> path.goe(value));
+		bindings.bind(root.price).first((path, value) -> path.loe(value));
 	}
 }

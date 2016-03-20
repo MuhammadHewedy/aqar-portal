@@ -10,7 +10,7 @@ angular.module('myApp').factory('Apartment', [ '$resource', function($resource) 
 		query : {
 			isArray : false,
 			params : {
-				size : 20,
+				size : 200000,
 				page : '@page'
 			}
 		}

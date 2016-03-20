@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -22,16 +24,22 @@ public class Apartment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
+	@JsonIgnore
 	private String city;
 	private String cityRegion;
 	private String district;
+	@JsonIgnore
 	private String adNumber;
+	@JsonIgnore
 	private LocalDate adDate;
 	private String adMobile;
+	@JsonIgnore
 	private String propertyType;
 	private Long price;
+	@JsonIgnore
 	private String advertiser;
 	private Integer area;
+	@JsonIgnore
 	private String payMethod;
 	private Long numOfRooms;
 	private Long floorNumber;
@@ -42,6 +50,7 @@ public class Apartment {
 	private String description;
 	private Double latitude;
 	private Double longitude;
+	@JsonIgnore
 	@Column(length = 2000)
 	@ElementCollection(fetch = FetchType.LAZY)
 	private List<String> imageUrls = new ArrayList<>();
