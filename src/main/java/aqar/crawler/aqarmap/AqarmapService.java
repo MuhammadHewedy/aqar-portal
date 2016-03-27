@@ -6,14 +6,13 @@ import static aqar.util.XPathUtils.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,15 +44,14 @@ class AqarmapService implements AqarService {
 	@SuppressWarnings("unchecked")
 	@Async
 	@Override
-	public ListenableFuture<Stream<String>> getDetailsUrls(String searchUrl) {
+	public CompletableFuture<Stream<String>> getDetailsUrls(String searchUrl) {
 		try {
 			Document doc = urlService.fromUrl(searchUrl);
 			List<Node> list = get(doc, DETAILS_URLS, List.class);
 			log.info("found {} details urls, in page URL: {}", list.size(), searchUrl);
-			return new AsyncResult<>(list.stream().map(n -> ((Element) n).getAttribute("href")));
+			return CompletableFuture.completedFuture(list.stream().map(n -> ((Element) n).getAttribute("href")));
 		} catch (Exception ex) {
-			log.error("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
-			return new AsyncResult<>(Stream.empty());
+			throw new RuntimeException("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
 		}
 	}
 
@@ -69,8 +67,9 @@ class AqarmapService implements AqarService {
 		return pages;
 	}
 
+	@Async
 	@Override
-	public Apartment buildApartement(String detailsUrl) {
+	public CompletableFuture<Apartment> buildApartement(String detailsUrl) {
 		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
 		Apartment apartment = new Apartment();
@@ -101,7 +100,7 @@ class AqarmapService implements AqarService {
 		apartment.setImageUrls(getImageUrls(doc));
 		setLatAndLong(doc, apartment);
 
-		return apartment;
+		return CompletableFuture.completedFuture(apartment);
 	}
 
 	@Override

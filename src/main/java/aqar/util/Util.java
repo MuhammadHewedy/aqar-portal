@@ -10,6 +10,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 public class Util {
@@ -39,6 +41,13 @@ public class Util {
 		private int failed = 0;
 		private int nullObj = 0;
 		private int dup = 0;
+		private long timeInMills = 0;
+		@JsonIgnore
+		private long startMillis;
+		
+		public void calcTimeInMills() {
+			this.timeInMills = System.currentTimeMillis() - startMillis;
+		}
 
 		public void incrementSucc() {
 			this.success += 1;
