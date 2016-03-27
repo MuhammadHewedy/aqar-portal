@@ -1,5 +1,6 @@
-package aqar.crawler;
+package aqar.services.crawler;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import org.springframework.scheduling.annotation.Async;
@@ -25,7 +26,7 @@ public interface AqarService {
 	 * @param searchUrl
 	 * @return
 	 */
-	ListenableFuture<Stream<String>> getDetailsUrls(String searchUrl);
+	CompletableFuture<Stream<String>> getDetailsUrls(String searchUrl);
 
 	/**
 	 * get number of pages available to be iterated over it
@@ -42,11 +43,13 @@ public interface AqarService {
 	boolean enabled();
 
 	/**
+	 * The implementation methods should be annotated by {@link Async}
+	 * annotation <br />
 	 * Used to build the {@link Apartment} object from the details url
 	 * 
 	 * @param detailsUrl
 	 * @return a {@link ListenableFuture} as a promise of the {@link Apartment}
 	 *         object
 	 */
-	Apartment buildApartement(String detailsUrl);
+	CompletableFuture<Apartment> buildApartement(String detailsUrl);
 }

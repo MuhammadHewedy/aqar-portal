@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysema.query.types.Predicate;
 
-import aqar.crawler.CrawlerService;
 import aqar.models.Apartment;
 import aqar.models.ApartmentRepo;
+import aqar.services.crawler.CrawlerService;
 import aqar.util.Util;
 
 @RestController

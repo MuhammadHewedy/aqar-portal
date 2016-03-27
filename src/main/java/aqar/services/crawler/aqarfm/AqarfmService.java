@@ -1,23 +1,22 @@
-package aqar.crawler.aqarfm;
+package aqar.services.crawler.aqarfm;
 
-import static aqar.crawler.aqarfm.Helper.*;
+import static aqar.services.crawler.aqarfm.Helper.*;
 import static aqar.util.XPathUtils.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import aqar.crawler.AqarService;
+import aqar.services.crawler.AqarService;
 import aqar.models.Apartment;
 import aqar.services.UrlService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,15 +43,14 @@ class AqarfmService implements AqarService {
 	@SuppressWarnings("unchecked")
 	@Async
 	@Override
-	public ListenableFuture<Stream<String>> getDetailsUrls(String searchUrl) {
+	public CompletableFuture<Stream<String>> getDetailsUrls(String searchUrl) {
 		try {
 			Document doc = urlService.fromUrl(searchUrl);
 			List<Node> list = get(doc, DETAILS_URLS, List.class);
 			log.info("found {} details urls, in page URL: {}", list.size(), searchUrl);
-			return new AsyncResult<>(list.stream().map(n -> ((Element) n).getAttribute("href")));
+			return CompletableFuture.completedFuture(list.stream().map(n -> ((Element) n).getAttribute("href")));
 		} catch (Exception ex) {
-			log.error("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
-			return new AsyncResult<>(Stream.empty());
+			throw new RuntimeException("error during get details page for: " + searchUrl + " >> " + ex.getMessage());
 		}
 	}
 
@@ -72,8 +70,9 @@ class AqarfmService implements AqarService {
 		return enabled;
 	}
 
+	@Async
 	@Override
-	public Apartment buildApartement(String detailsUrl) {
+	public CompletableFuture<Apartment> buildApartement(String detailsUrl) {
 
 		Document doc = urlService.fromUrl(baseUrl + detailsUrl);
 
@@ -106,10 +105,10 @@ class AqarfmService implements AqarService {
 			// set area
 			// contact person
 
-			return apartment;
+			return CompletableFuture.completedFuture(apartment);
 		} else {
 			log.info("skipping {}, no images found", detailsUrl);
-			return null;
+			throw new RuntimeException(String.format("skipping %s, no images found", detailsUrl));
 		}
 	}
 }
