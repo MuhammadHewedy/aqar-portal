@@ -1,4 +1,4 @@
-package aqar.crawler;
+package aqar.services.crawler;
 
 import static aqar.util.Util.*;
 

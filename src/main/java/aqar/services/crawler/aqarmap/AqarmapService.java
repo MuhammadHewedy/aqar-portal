@@ -1,6 +1,6 @@
-package aqar.crawler.aqarmap;
+package aqar.services.crawler.aqarmap;
 
-import static aqar.crawler.aqarmap.Helper.*;
+import static aqar.services.crawler.aqarmap.Helper.*;
 import static aqar.util.XPathUtils.*;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import aqar.crawler.AqarService;
+import aqar.services.crawler.AqarService;
 import aqar.models.Apartment;
 import aqar.services.UrlService;
 import lombok.extern.slf4j.Slf4j;

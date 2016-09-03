@@ -1,4 +1,4 @@
-package aqar.crawler.aqarfm;
+package aqar.services.crawler.aqarfm;
 
 import static aqar.util.XPathUtils.*;
 

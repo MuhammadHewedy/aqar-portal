@@ -1,4 +1,4 @@
-package aqar.crawler;
+package aqar.services.crawler;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
